@@ -12,6 +12,8 @@ export type Row = {
   args: Xput[];
   results: Xput[];
 };
+export type Variable = { name: string };
+export type Scope = { kind: ts.SyntaxKind; variables: Variable[] };
 export type Unit = {
   name?: string;
   rows: Row[];
@@ -23,6 +25,7 @@ export type Units = {
 type SwitchHelp = "initial" | "switch" | "case";
 export type Help = {
   switchHelp: SwitchHelp;
+  scopeStack: Scope[];
 };
 
 export async function travelFile() {
@@ -37,7 +40,10 @@ export async function travelFile() {
     return travelStatements(
       Array.from(node.statements),
       { units: [] },
-      { switchHelp: "initial" }
+      {
+        switchHelp: "initial",
+        scopeStack: [{ kind: node.kind, variables: [] }],
+      }
     );
   } else {
     throw new Error("expected a source file");

@@ -1,13 +1,16 @@
 import ts from "typescript";
+import { logWalkInfo } from "../../add-file/functions/logWalkInfo";
 import { Help, Units } from "../../add-file/functions/travelFile";
-import { mutateLastRow } from "../../add-row/functions/mutateLastRow";
-import { mutateLastUnit } from "../../add-unit/functions/mutateLastUnit";
+import { mutateNthRow } from "../../add-row/functions/mutateNthRow";
+import { mutateNthUnit } from "../../add-unit/functions/mutateNthUnit";
 
 export function recurseExpression(
   expression: ts.Expression | undefined,
   result: Units,
   help: Help
 ): [Units, Help] {
+  logWalkInfo(expression, help);
+
   if (expression === undefined) {
     return [result, help];
   } else if (ts.isPropertyAccessExpression(expression)) {
@@ -26,15 +29,17 @@ export function recurseExpression(
 
     return recurseExpression(
       (expression as any).expression,
-      mutateLastUnit(result, (unit) =>
-        mutateLastRow(unit, (row) => ({
-          ...row,
-          results: [
-            ...row.results,
-            { name, tag: "return", value: `${name} result` },
-          ],
-        }))
-      ),
+      help.scopeStack[1]?.kind === ts.SyntaxKind.FunctionDeclaration
+        ? mutateNthUnit(-1)(result, (unit) =>
+            mutateNthRow(-1)(unit, (row) => ({
+              ...row,
+              results: [
+                ...row.results,
+                { name, tag: "return", value: `${name} result` },
+              ],
+            }))
+          )
+        : result,
       help
     );
   } else {

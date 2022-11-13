@@ -1,4 +1,5 @@
 import ts from "typescript";
+import { logWalkInfo } from "../../add-file/functions/logWalkInfo";
 import { Help, Units } from "../../add-file/functions/travelFile";
 import { travelStatements } from "../../add-file/functions/travelStatements";
 
@@ -7,6 +8,8 @@ export function recurseTailRow(
   result: Units,
   help: Help
 ): [Units, Help] {
+  logWalkInfo(clauses[0], help);
+
   if (clauses.length === 0) {
     return [result, help];
   } else {

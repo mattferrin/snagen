@@ -1,37 +1,42 @@
 import ts from "typescript";
 import { Help, Units } from "../../add-file/functions/travelFile";
 import { travelStatements } from "../../add-file/functions/travelStatements";
-import { mutateLastUnit } from "../../add-unit/functions/mutateLastUnit";
+import { mutateNthUnit } from "../../add-unit/functions/mutateNthUnit";
 
 export function travelIfStatement(
   statement: ts.IfStatement,
   result: Units,
   help: Help
 ): [Units, Help] {
-  if (statement.thenStatement) {
-    const [ifResult, ifHelp] = travelStatements(
-      (statement.thenStatement as any).statements,
-      result,
-      help
+  const [ifResult, ifHelp] = travelStatements(
+    (statement.thenStatement as any).statements,
+    result,
+    help
+  );
+
+  const notIfResult = mutateNthUnit(-1)(ifResult, (unit) => {
+    const lastRow = unit.rows.slice(-1)[0];
+
+    return {
+      ...unit,
+      rows: [
+        ...unit.rows,
+        {
+          args: lastRow.args.map((arg) => ({ name: arg.name })),
+          comment: "else",
+          results: [],
+        },
+      ],
+    };
+  });
+
+  if (statement.elseStatement !== undefined) {
+    return travelStatements(
+      (statement.elseStatement as any).statements,
+      notIfResult,
+      ifHelp
     );
-
-    if (statement.elseStatement) {
-      return travelStatements(
-        (statement.elseStatement as any).statements,
-        mutateLastUnit(ifResult, (unit) => {
-          const lastRow = unit.rows.slice(-1)[0];
-
-          return {
-            ...unit,
-            rows: [...unit.rows, lastRow],
-          };
-        }),
-        ifHelp
-      );
-    } else {
-      throw new Error("unexpected not an elseStatement");
-    }
   } else {
-    throw new Error("unexpected IfStatement without else");
+    return [notIfResult, ifHelp];
   }
 }

@@ -1,7 +1,8 @@
 import ts from "typescript";
+import { logWalkInfo } from "../../add-file/functions/logWalkInfo";
 import { Help, Units } from "../../add-file/functions/travelFile";
-import { mutateLastRow } from "../../add-row/functions/mutateLastRow";
-import { mutateLastUnit } from "../../add-unit/functions/mutateLastUnit";
+import { mutateNthRow } from "../../add-row/functions/mutateNthRow";
+import { mutateNthUnit } from "../../add-unit/functions/mutateNthUnit";
 import { resultValue } from "./resultValue";
 
 export function recurseDeclaration(
@@ -10,6 +11,7 @@ export function recurseDeclaration(
   help: Help
 ): [Units, Help] {
   const first = declarations[0];
+  logWalkInfo(first, help);
 
   if (first === undefined) {
     return [result, help];
@@ -18,12 +20,14 @@ export function recurseDeclaration(
   } else if (ts.isCallExpression(first.initializer)) {
     return recurseDeclaration(
       declarations.slice(1),
-      mutateLastUnit(result, (unit) =>
-        mutateLastRow(unit, (row) => ({
-          ...row,
-          results: [...row.results, resultValue(first)],
-        }))
-      ),
+      help.scopeStack[1]?.kind === ts.SyntaxKind.FunctionDeclaration
+        ? mutateNthUnit(-1)(result, (unit) =>
+            mutateNthRow(-1)(unit, (row) => ({
+              ...row,
+              results: [...row.results, resultValue(first)],
+            }))
+          )
+        : result,
       help
     );
   } else {

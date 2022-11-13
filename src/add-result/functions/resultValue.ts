@@ -11,11 +11,22 @@ export function resultValue(
   } else if (ts.isObjectBindingPattern(first.name)) {
     const value = Object.fromEntries(
       first.name.elements.map((element) => {
-        const propertyName = (element.name as any).escapedText;
-        console.log("453c8610-da11-4733-834a-f12f2cca6f6b", propertyName);
+        const propertyName = ((element as any).name as any).escapedText;
         return [propertyName, `${name} result ${propertyName}`];
       })
     );
+
+    return {
+      name,
+      tag: "return",
+      value,
+    };
+  } else if (ts.isArrayBindingPattern(first.name)) {
+    const value = first.name.elements.map((element) => {
+      const propertyName = ((element as any).name as any).escapedText;
+      console.log("453c8610-da11-4733-834a-f12f2cca6f6b", propertyName);
+      return `${name} result ${propertyName}`;
+    });
 
     return {
       name,

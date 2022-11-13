@@ -10,6 +10,16 @@ export function next<T>(
   result: Units,
   help: Help,
   tail: ts.Statement[]
-) {
-  return travelStatements(tail, ...travel(statement, result, help));
+): [Units, Help] {
+  const [resultOut, helpOut] = travelStatements(
+    tail.slice(1),
+    ...travel(statement, result, help)
+  );
+
+  if (ts.isBlock(tail[0])) {
+    // exiting and unstacking old block scope
+    return [resultOut, { ...help, scopeStack: help.scopeStack.slice(0, -1) }];
+  } else {
+    return [resultOut, helpOut];
+  }
 }
