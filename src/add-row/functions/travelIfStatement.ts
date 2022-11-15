@@ -1,7 +1,7 @@
 import ts from "typescript";
 import { Help, Units } from "../../add-file/functions/travelFile";
 import { travelStatements } from "../../add-file/functions/travelStatements";
-import { mutateNthUnit } from "../../add-unit/functions/mutateNthUnit";
+import { addRow } from "./addRow";
 
 export function travelIfStatement(
   statement: ts.IfStatement,
@@ -14,21 +14,7 @@ export function travelIfStatement(
     help
   );
 
-  const notIfResult = mutateNthUnit(-1)(ifResult, (unit) => {
-    const lastRow = unit.rows.slice(-1)[0];
-
-    return {
-      ...unit,
-      rows: [
-        ...unit.rows,
-        {
-          args: lastRow.args.map((arg) => ({ name: arg.name })),
-          comment: "else",
-          results: [],
-        },
-      ],
-    };
-  });
+  const notIfResult = addRow(ifResult, "else");
 
   if (statement.elseStatement !== undefined) {
     return travelStatements(

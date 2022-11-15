@@ -1,9 +1,10 @@
 import ts from "typescript";
 import { recurseDeclaration } from "../../add-result/functions/recurseDeclaration";
 import { recurseExpression } from "../../add-result/functions/recurseExpression";
+import { addRow } from "../../add-row/functions/addRow";
+import { commentCaseClause } from "../../add-row/functions/commentCaseClause";
 import { travelIfStatement } from "../../add-row/functions/travelIfStatement";
 import { travelSwitchStatement } from "../../add-row/functions/travelSwitchStatement";
-import { mutateNthUnit } from "../../add-unit/functions/mutateNthUnit";
 import { travelFunctionDeclaration } from "../../add-unit/functions/travelFunctionDeclaration";
 import { logWalkInfo } from "./logWalkInfo";
 import { next } from "./next";
@@ -50,21 +51,7 @@ export function travelStatements(
     if (help.switchHelp === "case") {
       return travelStatements(
         Array.from(statement.statements),
-        mutateNthUnit(-1)(result, (unit) => {
-          const lastRow = unit.rows.slice(-1)[0];
-
-          return {
-            ...unit,
-            rows: [
-              ...unit.rows,
-              {
-                args: lastRow.args.map((arg) => ({ name: arg.name })),
-                comment: "case",
-                results: [],
-              },
-            ],
-          };
-        }),
+        addRow(result, commentCaseClause(statement)),
         help
       );
     } else if (help.switchHelp === "switch") {

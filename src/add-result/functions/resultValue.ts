@@ -24,7 +24,6 @@ export function resultValue(
   } else if (ts.isArrayBindingPattern(first.name)) {
     const value = first.name.elements.map((element) => {
       const propertyName = ((element as any).name as any).escapedText;
-      console.log("453c8610-da11-4733-834a-f12f2cca6f6b", propertyName);
       return `${name} result ${propertyName}`;
     });
 

@@ -15,6 +15,7 @@ export function travelFunctionDeclaration(
     rows: [
       {
         args,
+        comment: "",
         results: [],
       },
     ],

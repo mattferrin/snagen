@@ -2,13 +2,13 @@ import { promises as fs } from "fs";
 import * as ts from "typescript";
 import { travelStatements } from "./travelStatements";
 
-type Xput = {
+export type Xput = {
   tag?: "value" | "return" | "throw";
   name: string;
   value?: Object;
 };
 export type Row = {
-  comment?: string;
+  comment: string;
   args: Xput[];
   results: Xput[];
 };
@@ -22,7 +22,8 @@ export type Units = {
   units: Unit[];
 };
 
-type SwitchHelp = "initial" | "switch" | "case";
+export type InitializedSwitchHelp = "switch" | "case";
+type SwitchHelp = "initial" | InitializedSwitchHelp;
 export type Help = {
   switchHelp: SwitchHelp;
   scopeStack: Scope[];

@@ -1,8 +1,7 @@
 import ts from "typescript";
 import { logWalkInfo } from "../../add-file/functions/logWalkInfo";
 import { Help, Units } from "../../add-file/functions/travelFile";
-import { mutateNthRow } from "../../add-row/functions/mutateNthRow";
-import { mutateNthUnit } from "../../add-unit/functions/mutateNthUnit";
+import { addResultValue } from "./addResultValue";
 
 export function recurseExpression(
   expression: ts.Expression | undefined,
@@ -29,17 +28,11 @@ export function recurseExpression(
 
     return recurseExpression(
       (expression as any).expression,
-      help.scopeStack[1]?.kind === ts.SyntaxKind.FunctionDeclaration
-        ? mutateNthUnit(-1)(result, (unit) =>
-            mutateNthRow(-1)(unit, (row) => ({
-              ...row,
-              results: [
-                ...row.results,
-                { name, tag: "return", value: `${name} result` },
-              ],
-            }))
-          )
-        : result,
+      addResultValue(help, result, {
+        name,
+        tag: "return",
+        value: `${name} result`,
+      }),
       help
     );
   } else {
