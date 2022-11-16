@@ -14,11 +14,14 @@ import { travelImportDeclaration } from "./travelImportDeclaration";
 import { travelImportSpecifier } from "./travelImportSpecifier";
 
 export function travelStatements(
-  statements: ts.Statement[],
+  // eslint-disable-next-line @typescript-eslint/prefer-readonly-parameter-types
+  statements: readonly ts.Statement[],
   result: Units,
   help: Help
-): [Units, Help] {
+): readonly [Units, Help] {
+  // eslint-disable-next-line functional/functional-parameters
   const statement = statements.find(() => true);
+  // eslint-disable-next-line functional/no-expression-statement
   logWalkInfo(statement, help);
 
   const twoLastArgs = [help, statements] as const;
@@ -60,6 +63,7 @@ export function travelStatements(
         switchHelp: "case",
       });
     } else {
+      // eslint-disable-next-line functional/no-throw-statement
       throw new Error("unexpected case clause");
     }
   } else if (ts.isExpressionStatement(statement)) {
@@ -85,6 +89,7 @@ export function travelStatements(
       switchHelp: "case",
     });
   } else {
+    // eslint-disable-next-line functional/no-throw-statement
     throw new Error(`unexpected statement of ${ts.SyntaxKind[statement.kind]}`);
   }
 }

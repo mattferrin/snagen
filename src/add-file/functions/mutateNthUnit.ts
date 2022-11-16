@@ -3,6 +3,6 @@ import { Help, Scope } from "../../add-file/functions/travelFile";
 import { buildMutateNth } from "../../other/functions/buildMutateNth";
 
 export const mutateNthScope = buildMutateNth<
-  ConditionalPick<Help, Array<unknown>>,
+  ConditionalPick<Help, ReadonlyArray<unknown>>,
   Scope
 >("scopeStack");

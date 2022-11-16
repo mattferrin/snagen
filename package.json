@@ -4,6 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "lint": "eslint src",
     "fsl": "node node_modules/folder-structure-lint/dist/index.js",
     "jscpd": "npx jscpd --threshold=1 --reporters=html ./src",
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -12,8 +13,13 @@
   "license": "ISC",
   "devDependencies": {
     "@types/node": "^18.11.9",
+    "@typescript-eslint/eslint-plugin": "^5.43.0",
+    "@typescript-eslint/parser": "^5.43.0",
+    "eslint": "^8.27.0",
+    "eslint-plugin-functional": "^4.4.1",
     "folder-structure-lint": "github:mattferrin/folder-structure-lint",
     "jscpd": "^3.5.1",
+    "tsutils": "^3.21.0",
     "type-fest": "^3.2.0",
     "typescript": "^4.8.4"
   }

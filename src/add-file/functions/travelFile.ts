@@ -3,32 +3,37 @@ import * as ts from "typescript";
 import { travelStatements } from "./travelStatements";
 
 export type Xput = {
-  tag?: "value" | "return" | "throw";
-  name: string;
-  value?: Object;
+  readonly tag?: "value" | "return" | "throw";
+  readonly name: string;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  readonly value?: any;
 };
 export type Row = {
-  comment: string;
-  args: Xput[];
-  results: Xput[];
+  readonly comment: string;
+  readonly args: readonly Xput[];
+  readonly results: readonly Xput[];
 };
-export type Variable = { name: string };
-export type Scope = { kind: ts.SyntaxKind; variables: Variable[] };
+export type Variable = { readonly name: string };
+export type Scope = {
+  readonly kind: ts.SyntaxKind;
+  readonly variables: readonly Variable[];
+};
 export type Unit = {
-  name?: string;
-  rows: Row[];
+  readonly name?: string;
+  readonly rows: readonly Row[];
 };
 export type Units = {
-  units: Unit[];
+  readonly units: readonly Unit[];
 };
 
 export type InitializedSwitchHelp = "switch" | "case";
 type SwitchHelp = "initial" | InitializedSwitchHelp;
 export type Help = {
-  switchHelp: SwitchHelp;
-  scopeStack: Scope[];
+  readonly switchHelp: SwitchHelp;
+  readonly scopeStack: readonly Scope[];
 };
 
+// eslint-disable-next-line functional/functional-parameters
 export async function travelFile() {
   const code = await fs.readFile(process.argv[2], "binary");
   const node = ts.createSourceFile(
@@ -47,6 +52,7 @@ export async function travelFile() {
       }
     );
   } else {
+    // eslint-disable-next-line functional/no-throw-statement
     throw new Error("expected a source file");
   }
 }

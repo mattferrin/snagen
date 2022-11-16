@@ -3,10 +3,11 @@ import { mutateNthScope } from "./mutateNthUnit";
 import { Help, Units } from "./travelFile";
 
 export function travelImportSpecifier(
+  // eslint-disable-next-line @typescript-eslint/prefer-readonly-parameter-types
   statement: ts.ImportSpecifier,
   result: Units,
   help: Help
-): [Units, Help] {
+): readonly [Units, Help] {
   return [
     result,
     mutateNthScope(-1)(help, (scope) => ({

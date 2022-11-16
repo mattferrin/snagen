@@ -3,6 +3,6 @@ import { Row, Unit } from "../../add-file/functions/travelFile";
 import { buildMutateNth } from "../../other/functions/buildMutateNth";
 
 export const mutateNthRow = buildMutateNth<
-  ConditionalPick<Unit, Array<unknown>>,
+  ConditionalPick<Unit, ReadonlyArray<unknown>>,
   Row
 >("rows");

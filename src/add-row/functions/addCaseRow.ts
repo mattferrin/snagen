@@ -11,12 +11,14 @@ import { commentCaseClause } from "./commentCaseClause";
 import { recurseTailRow } from "./recurseTailRow";
 
 export function addCaseRow(
-  clauses: ts.CaseOrDefaultClause[],
+  // eslint-disable-next-line @typescript-eslint/prefer-readonly-parameter-types
+  clauses: readonly ts.CaseOrDefaultClause[],
   result: Units,
   help: Help,
   switchHelp: InitializedSwitchHelp
 ) {
   const firstClause = clauses[0];
+  // eslint-disable-next-line functional/no-expression-statement
   logWalkInfo(firstClause, help);
 
   const [lastResult, lastHelp] = travelStatements(

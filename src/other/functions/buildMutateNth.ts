@@ -1,7 +1,9 @@
 export function buildMutateNth<
-  Result extends { [Property in keyof Result]: Array<Item> },
+  Result extends { readonly [Property in keyof Result]: ReadonlyArray<Item> },
   Item
->(items: keyof Result) {
+>(
+  items: keyof Result
+): (nth: number) => (result: Result, mutation: (arg0: Item) => Item) => Result {
   return function index(nth: number) {
     return function mutateNth(
       result: Result,
