@@ -3,4 +3,5 @@
 
 npm run fsl
 npm run pretty
+npm run jscpd
 npm run lint
