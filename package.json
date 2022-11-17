@@ -4,11 +4,12 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "lint": "eslint src",
     "fsl": "node node_modules/folder-structure-lint/dist/index.js",
     "jscpd": "npx jscpd --threshold=1 --reporters=html ./src",
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "prepare": "husky install"
+    "lint": "eslint src",
+    "prepare": "husky install",
+    "pretty": "npx prettier --check src",
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
   "license": "ISC",
@@ -21,6 +22,7 @@
     "folder-structure-lint": "github:mattferrin/folder-structure-lint",
     "husky": "^8.0.2",
     "jscpd": "^3.5.1",
+    "prettier": "^2.7.1",
     "tsutils": "^3.21.0",
     "type-fest": "^3.2.0",
     "typescript": "^4.8.4"
