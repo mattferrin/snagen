@@ -1,7 +1,8 @@
 #!/usr/bin/env sh
 . "$(dirname -- "$0")/_/husky.sh"
 
+npx tsc
+npm run jscpd
 npm run fsl
 npm run pretty
-npm run jscpd
 npm run lint
