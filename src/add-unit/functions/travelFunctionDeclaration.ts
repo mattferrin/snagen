@@ -19,8 +19,8 @@ export function travelFunctionDeclaration(
     name: statement.name?.escapedText.toString(),
     rows: [
       {
-        args,
-        comment: "",
+        args: args,
+        comment: "initial",
         results: [],
       },
     ],

@@ -25,6 +25,13 @@ export function recurseDeclaration(
       addResultValue(help, result, resultValue(first)),
       help
     );
+  } else if (ts.isVariableDeclaration(first)) {
+    if (help.scopeStack[1]?.kind === ts.SyntaxKind.FunctionDeclaration) {
+      // eslint-disable-next-line functional/no-throw-statement
+      throw new Error("unexpected VariableDeclaration");
+    } else {
+      return recurseDeclaration(declarations.slice(1), result, help);
+    }
   } else {
     // eslint-disable-next-line functional/no-throw-statement
     throw new Error("unexpected unmatched recurse declaration name");

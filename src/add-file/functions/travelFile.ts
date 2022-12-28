@@ -34,8 +34,10 @@ export type Help = {
 };
 
 // eslint-disable-next-line functional/functional-parameters
-export async function travelFile() {
-  const code = await fs.readFile(process.argv[2], "binary");
+export async function travelFile(
+  file: string
+): Promise<readonly [Units, Help]> {
+  const code = await fs.readFile(file, "binary");
   const node = ts.createSourceFile(
     "imaginary.ts",
     code,

@@ -4,5 +4,5 @@
 npx tsc
 npm run jscpd
 npm run fsl
-npm run pretty
+npm run pretty:c
 npm run lint

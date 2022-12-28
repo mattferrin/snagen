@@ -25,11 +25,7 @@ export function recurseExpression(
     );
     // eslint-disable-next-line @typescript-eslint/no-unsafe-argument, @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-explicit-any
     return recurseExpression((expression as any).expression, result, help);
-  } else if (
-    ts.isCallExpression(expression) &&
-    (expression.parent === undefined ||
-      !ts.isVariableDeclaration(expression.parent))
-  ) {
+  } else if (ts.isCallExpression(expression)) {
     // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-explicit-any
     const name = (expression?.expression as any)?.escapedText;
 

@@ -21,5 +21,19 @@
     "plugin:functional/external-recommended",
     "plugin:functional/recommended",
     "plugin:functional/stylistic"
+  ],
+  "overrides": [
+    {
+      "files": ["*.tsx", "*.ts"],
+      "rules": {
+        "@typescript-eslint/prefer-readonly-parameter-types": "off"
+      }
+    },
+    {
+      "files": ["*.ts.snap.test.ts"],
+      "rules": {
+        "functional/no-expression-statement": "off"
+      }
+    }
   ]
 }

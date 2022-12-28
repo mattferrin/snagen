@@ -4,16 +4,20 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "fsl": "node node_modules/folder-structure-lint/dist/index.js",
-    "jscpd": "npx jscpd --threshold=1 --reporters=html ./src",
+    "fsl": "fsl",
+    "jscpd": "npx jscpd --ignore=**/*.snap.test.* --threshold=1 --reporters=html ./src",
     "lint": "eslint src",
     "prepare": "husky install",
-    "pretty": "npx prettier --check src",
+    "pretty:c": "npx prettier --check src",
+    "pretty": "npx prettier --write src",
+    "snagen": "ts-node src/index.ts src",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
   "license": "ISC",
   "devDependencies": {
+    "@clowd/fsl": "^1.0.5",
+    "@types/glob": "^8.0.0",
     "@types/node": "^18.11.9",
     "@typescript-eslint/eslint-plugin": "^5.43.0",
     "@typescript-eslint/parser": "^5.43.0",
@@ -23,8 +27,12 @@
     "husky": "^8.0.2",
     "jscpd": "^3.5.1",
     "prettier": "^2.7.1",
+    "ts-node": "^10.9.1",
     "tsutils": "^3.21.0",
     "type-fest": "^3.2.0",
     "typescript": "^4.8.4"
+  },
+  "dependencies": {
+    "glob": "^8.0.3"
   }
 }

@@ -1,15 +1,33 @@
-import { travelFile } from "./add-file/functions/travelFile";
+/* eslint-disable @typescript-eslint/no-floating-promises */
+/* eslint-disable functional/no-conditional-statement */
+/* eslint-disable functional/no-return-void */
+/* eslint-disable functional/no-expression-statement */
 
-const isLog = true;
+import fs from "fs";
+import glob from "glob";
+import path from "path";
+import { writeFile } from "./add-file/functions/writeFile";
 
-// eslint-disable-next-line functional/no-expression-statement, @typescript-eslint/no-floating-promises, functional/no-return-void
-travelFile().then(
-  // eslint-disable-next-line functional/no-return-void, @typescript-eslint/prefer-readonly-parameter-types
-  (result) => {
-    // eslint-disable-next-line functional/no-conditional-statement
-    if (isLog) {
-      // eslint-disable-next-line functional/no-expression-statement
-      console.log(JSON.stringify({ result }, null, 2));
-    }
+/**
+ * dynamic test generation on file change
+ */
+fs.watch(
+  process.argv[2],
+  { recursive: true },
+  function (_event, filename: string) {
+    writeFile(path.resolve("src", filename));
   }
 );
+
+/**
+ * initial test generation for every file
+ */
+glob("src/**/*.ts", { nodir: true }, function (error, files) {
+  if (error) {
+    console.error(error);
+  } else {
+    files.forEach((file) => {
+      writeFile(file);
+    });
+  }
+});
